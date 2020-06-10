@@ -26,10 +26,10 @@ def player(board):
     num_o = 0
 
     for row in board:
-    	for box in row:
-    		if box == X:
+    	for cell in row:
+    		if cell == X:
     			num_x += 1
-    		elif box == O:
+    		elif cell == O:
     			num_o += 1
 
     if num_x > num_o:
@@ -42,7 +42,17 @@ def actions(board):
     """
     Returns set of all possible actions (i, j) available on the board.
     """
-    raise NotImplementedError
+    possible_actions = set()
+    i = 0
+    j = 0
+
+    for i in range(len(board)):
+    	for j in range(len(board[i])):
+            cell = board[i][j]
+            if cell == EMPTY:
+                possible_actions.add((i, j))
+
+    return possible_actions
 
 
 def result(board, action):
