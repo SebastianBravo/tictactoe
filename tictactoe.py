@@ -130,11 +130,17 @@ def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
+    #best explored option along path to root for maximizer 
+    alpha = -math.inf
+
+    #best explored option along path to root for minimizer
+    beta = math.inf
+
     values_actions = {}
 
     if player(board) == X:
         for action in actions(board):
-            v = min_value(result(board, action))
+            v = min_value(result(board, action), alpha, beta)
             values_actions[v] = action
 
         max_v = max(values_actions.keys())
@@ -143,7 +149,7 @@ def minimax(board):
 
     else:
         for action in actions(board):
-            v = max_value(result(board, action))
+            v = max_value(result(board, action), alpha, beta)
             values_actions[v] = action
 
         min_v = min(values_actions.keys())
@@ -151,7 +157,7 @@ def minimax(board):
         return values_actions[min_v]
 
 
-def max_value(board):
+def max_value(board, alpha, beta):
 
     if terminal(board):
         return utility(board)
@@ -159,17 +165,25 @@ def max_value(board):
     v = -math.inf
 
     for action in actions(board):
-        v = max(v, min_value(result(board, action)))
+        v = max(v, min_value(result(board, action), alpha, beta))
+        alpha = max(alpha, v)
+
+        if alpha >= beta:
+            break
 
     return v
 
-def min_value(board):
+def min_value(board, alpha, beta):
     if terminal(board):
         return utility(board)
 
     v = math.inf
 
     for action in actions(board):
-        v = min(v, max_value(result(board, action)))
+        v = min(v, max_value(result(board, action), alpha, beta))
+        beta = min(beta, v)
+
+        if beta <= alpha:
+            break
 
     return v
