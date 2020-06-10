@@ -23,6 +23,9 @@ def player(board):
     """
     Returns player who has the next turn on a board.
     """
+    if terminal(board):
+        return "Game is already over"
+
     num_x = 0
     num_o = 0
 
@@ -43,6 +46,9 @@ def actions(board):
     """
     Returns set of all possible actions (i, j) available on the board.
     """
+    if terminal(board):
+        return "Game is already over"
+
     possible_actions = set()
 
     for i in range(len(board)):
@@ -95,11 +101,17 @@ def winner(board):
     else:
         return None
 
+
 def terminal(board):
     """
     Returns True if game is over, False otherwise.
-    """
-    raise NotImplementedError
+    """ 
+    full = not any(EMPTY in row for row in board)
+
+    if winner(board) or full:
+        return True
+    else:
+        return False
 
 
 def utility(board):
