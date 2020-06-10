@@ -74,8 +74,26 @@ def winner(board):
     """
     Returns the winner of the game, if there is one.
     """
-    raise NotImplementedError
+    x_win = [X, X, X]
+    o_win = [O, O, O]
 
+    diagonals = [[board[0][0], board[1][1], board[2][2]],
+                [board[2][0], board[1][1], board[0][2]]]
+    rows = copy.deepcopy(board)
+    columns = []
+
+    for num_col in range(3):
+        column = [row[num_col] for row in board]
+        columns.append(column)
+
+    three_in_a_row = diagonals + columns + rows
+
+    if x_win in three_in_a_row:
+        return X
+    elif o_win in three_in_a_row:
+        return O
+    else:
+        return None
 
 def terminal(board):
     """
